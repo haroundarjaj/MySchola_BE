@@ -3,6 +3,7 @@ package com.dartech.myschola.controller;
 import com.dartech.myschola.entity.AppUser;
 import com.dartech.myschola.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
-    @RequestMapping("/save")
+    @PostMapping("/save")
     AppUser saveAppUser(AppUser appUser) {
         return appUserService.saveAppUser(appUser);
     }

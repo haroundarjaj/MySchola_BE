@@ -1,7 +1,6 @@
 package com.dartech.myschola.service;
 
 import com.dartech.myschola.dto.LoginDto;
-import com.dartech.myschola.dto.UserDto;
 import com.dartech.myschola.entity.Role;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.repository.UserRepository;
@@ -24,17 +23,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserService userService;
 
     @Autowired
     AuthenticationServiceImpl(
             AuthenticationManager authenticationManager,
             JwtTokenProvider jwtTokenProvider,
-            UserService userService,
             UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userService = userService;
         this.userRepository = userRepository;
     }
 

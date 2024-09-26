@@ -36,7 +36,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Permission update(PermissionDto permissionDto) {
         Permission permission = permissionMapper.dtoToEntity(permissionDto);
-        Permission oldPermission = permissionRepository.findById(permission.getId()).get();
+        Permission oldPermission = permissionRepository.findById(permission.getId()).orElse(null);
+        assert oldPermission != null;
         permission = operationLogGenerator.generateUpdateLog(permission);
         permission.setCreatedAt(oldPermission.getCreatedAt());
         permission.setCreatedBy(oldPermission.getCreatedBy());
@@ -55,6 +56,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Permission getById(long id) {
-        return permissionRepository.findById(id).get();
+        return permissionRepository.findById(id).orElse(null);
     }
 }

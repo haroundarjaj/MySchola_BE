@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -50,7 +47,8 @@ public class UserServiceImpl implements UserService {
     public User update(UserDto userDto) {
         System.out.println(userDto);
         User user = userMapper.dtoToEntity(userDto);
-        User userOld = userRepository.findById(user.getId()).get();
+        User userOld = userRepository.findById(user.getId()).orElse(null);
+        assert userOld != null;
         user.setCreatedAt(userOld.getCreatedAt());
         user.setCreatedBy(userOld.getCreatedBy());
         user = operationLogGenerator.generateUpdateLog(user);
@@ -74,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long id) {
-        userRepository.findById(id).ifPresent(appUser -> userRepository.delete(appUser));
+        userRepository.findById(id).ifPresent(userRepository::delete);
     }
 
 }

@@ -1,13 +1,22 @@
 package com.dartech.myschola.entity;
 
-import java.util.Date;
+import jakarta.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
 public class BaseEntity {
 
-    private Date createdAt;
-    private Date updatedAt;
+    private String createdAt;
+    private String lastUpdateAt;
 
     private String createdBy;
-    private String updatedBy;
+    private String lastUpdatedBy;
 
 }

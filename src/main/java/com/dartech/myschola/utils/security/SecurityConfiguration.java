@@ -18,20 +18,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
 
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-
     private final JwtAuthenticationFilter authenticationFilter;
 
     private final AuthenticationProvider authenticationProvider;
 
     @Autowired
     public SecurityConfiguration(
-            JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAuthenticationFilter authenticationFilter,
             AuthenticationProvider authenticationProvider
     ) {
         this.authenticationFilter = authenticationFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -40,20 +36,18 @@ public class SecurityConfiguration {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers(
-                            "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html"
-                    ).permitAll()
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .anyRequest().authenticated())
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.authenticationProvider(authenticationProvider);
         http.sessionManagement(sessionAuthenticationStrategy ->
                 sessionAuthenticationStrategy.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.exceptionHandling( exception -> exception
-                .authenticationEntryPoint(authenticationEntryPoint));
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

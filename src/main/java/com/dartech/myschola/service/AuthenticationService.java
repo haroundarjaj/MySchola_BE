@@ -1,9 +1,10 @@
 package com.dartech.myschola.service;
 
+import com.dartech.myschola.dto.AuthResponseDto;
 import com.dartech.myschola.dto.LoginDto;
 
 public interface AuthenticationService {
 
-    String login(LoginDto loginDto);
+    AuthResponseDto login(LoginDto loginDto);
 
 }

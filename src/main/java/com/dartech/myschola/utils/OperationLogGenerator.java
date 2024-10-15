@@ -12,7 +12,7 @@ public class OperationLogGenerator<T extends BaseEntity> {
 
     public T generateCreationLog(T object) {
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        String connectedUsername = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String connectedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         object.setCreatedBy(connectedUsername);
         object.setCreatedAt(timeStamp);
         return object;
@@ -20,7 +20,7 @@ public class OperationLogGenerator<T extends BaseEntity> {
 
     public T generateUpdateLog(T object) {
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        String connectedUsername = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String connectedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         object.setLastUpdatedBy(connectedUsername);
         object.setLastUpdateAt(timeStamp);
         return object;

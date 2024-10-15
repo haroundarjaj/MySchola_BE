@@ -41,7 +41,7 @@ public class RoleServiceImpl implements RoleService{
     public Role update(RoleDto roleDto) {
         Role role = roleMapper.dtoToEntity(roleDto);
         Role oldRole = roleRepository.findById(roleDto.getId()).orElseThrow(() -> PredefinedExceptions.notFoundException);
-        role = operationLogGenerator.generateCreationLog(role);
+        role = operationLogGenerator.generateUpdateLog(role);
         role.setCreatedAt(oldRole.getCreatedAt());
         role.setCreatedBy(oldRole.getCreatedBy());
         return roleRepository.save(role);

@@ -6,6 +6,7 @@ import com.dartech.myschola.mapper.PermissionMapper;
 import com.dartech.myschola.repository.PermissionRepository;
 import com.dartech.myschola.utils.OperationLogGenerator;
 import com.dartech.myschola.utils.exception.PredefinedExceptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionMapper permissionMapper;
     private final OperationLogGenerator<Permission> operationLogGenerator;
 
+    @Autowired
     PermissionServiceImpl(
             PermissionRepository permissionRepository,
             PermissionMapper permissionMapper,
@@ -39,7 +41,7 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission update(PermissionDto permissionDto) {
         Permission permission = permissionMapper.dtoToEntity(permissionDto);
         Permission oldPermission = permissionRepository
-                .findById(permission.getId())
+                .findById(permissionDto.getId())
                 .orElseThrow(() -> PredefinedExceptions.notFoundException);
         permission = operationLogGenerator.generateUpdateLog(permission);
         permission.setCreatedAt(oldPermission.getCreatedAt());

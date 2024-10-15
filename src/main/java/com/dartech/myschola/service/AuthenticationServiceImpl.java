@@ -1,5 +1,6 @@
 package com.dartech.myschola.service;
 
+import com.dartech.myschola.dto.AuthResponseDto;
 import com.dartech.myschola.dto.LoginDto;
 import com.dartech.myschola.entity.Role;
 import com.dartech.myschola.entity.User;
@@ -28,14 +29,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     AuthenticationServiceImpl(
             AuthenticationManager authenticationManager,
             JwtTokenProvider jwtTokenProvider,
-            UserRepository userRepository) {
+            UserRepository userRepository
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public AuthResponseDto login(LoginDto loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(),
@@ -49,8 +51,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("firstName", user.getFirstName());
         claims.put("lastName", user.getLastName());
+        claims.put("id", user.getId());
         claims.put("roles", user.getRoles().stream().map(Role::getCode).collect(Collectors.toList()));
-        return jwtTokenProvider.generateToken(claims, user);
+        return new AuthResponseDto(user, jwtTokenProvider.generateToken(claims, user));
     }
 
 }

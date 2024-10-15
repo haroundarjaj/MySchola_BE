@@ -2,7 +2,9 @@ package com.dartech.myschola.controller;
 
 import com.dartech.myschola.dto.AuthResponseDto;
 import com.dartech.myschola.dto.LoginDto;
+import com.dartech.myschola.dto.ResetPasswordRequestDto;
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.entity.PasswordResetToken;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.service.AuthenticationService;
 import com.dartech.myschola.service.UserService;
@@ -35,10 +37,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto){
 
-        String token = authenticationService.login(loginDto);
-
-        AuthResponseDto authResponseDto = new AuthResponseDto();
-        authResponseDto.setAccessToken(token);
+        AuthResponseDto authResponseDto = authenticationService.login(loginDto);
 
         return new ResponseEntity<>(authResponseDto, HttpStatus.OK);
     }
@@ -46,6 +45,23 @@ public class AuthenticationController {
     @PostMapping("/register")
     User saveAppUser(@RequestBody UserDto userDto) {
         return userService.save(userDto);
+    }
+
+    @PostMapping("/forgot-password/{email}")
+    public ResponseEntity<String> forgotPassword(@PathVariable String email) {
+        userService.forgotPassword(email);
+        return ResponseEntity.ok("reset_link_sent");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto request) {
+        userService.resetPassword(request);
+        return ResponseEntity.ok("password_reset_successfully");
+    }
+
+    @GetMapping("/get-token-info/{token}")
+    public PasswordResetToken getTokenInfo(@PathVariable String token) {
+        return userService.getTokenInfo(token);
     }
 
 

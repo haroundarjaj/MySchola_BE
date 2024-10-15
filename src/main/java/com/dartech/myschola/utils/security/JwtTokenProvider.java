@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -29,24 +28,16 @@ public class JwtTokenProvider {
     ) {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
-        SecretKey key = getSignInKey();
-        System.out.println("auth key");
-        System.out.println(key);
-        System.out.println(Arrays.toString(key.getEncoded()));
-        System.out.println("JWT Secret Key: " + Arrays.toString(key.getEncoded()));
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(expireDate)
-                .signWith(key)
+                .signWith(getSignInKey())
                 .compact();
-        System.out.println("JWT Token: " + token);
-        return token;
     }
 
     private SecretKey getSignInKey() {
-        System.out.println("jwtSecret" + jwtSecret);
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
@@ -57,14 +48,8 @@ public class JwtTokenProvider {
     }
 
     public Claims extractAllClaims(String token){
-        SecretKey key = getSignInKey();
-        System.out.println("access key");
-        System.out.println(key);
-        System.out.println("JWT Secret Key: " + Arrays.toString(key.getEncoded()));
-        System.out.println(Arrays.toString(key.getEncoded()));
-        System.out.println("JWT Token: " + token);
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

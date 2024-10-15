@@ -21,32 +21,32 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public User saveAppUser(@RequestBody UserDto userDto) {
+    public User saveUser(@RequestBody UserDto userDto) {
         return userService.save(userDto);
     }
 
     @PutMapping("/update")
-    public User updateAppUser(@RequestBody UserDto userDto) {
+    public User updateUser(@RequestBody UserDto userDto) {
         return userService.update(userDto);
     }
 
     @GetMapping("/get-by-id/{id}")
-    public User getAppUserById(@PathVariable long id) {
+    public User getUserById(@PathVariable long id) {
         return userService.getById(id);
     }
 
     @GetMapping("/get-by-email/{email}")
-    public User getAppUserByEmail(@PathVariable String email) {
+    public User getUserByEmail(@PathVariable String email) {
         return userService.getByEmail(email);
     }
 
     @GetMapping("/all")
-    public List<User> getAllAppUsers() {
+    public List<User> getAllUsers() {
         return userService.getAll();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteAppUserById(@PathVariable int id) {
+    public ResponseEntity<User> deleteUserById(@PathVariable int id) {
         userService.delete(id);
         return ResponseEntity.ok().build();
     }

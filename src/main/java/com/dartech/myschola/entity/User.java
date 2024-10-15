@@ -46,18 +46,20 @@ public class User extends BaseEntity implements UserDetails {
     @Lob
     private byte[] imageData;
     private boolean isActive = false;
+    private boolean isApproved = false;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private List<Role> roles = new ArrayList<>();
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .map(authority -> new SimpleGrantedAuthority(authority.getCode()))
                 .collect(Collectors.toSet());
     }
 
@@ -69,5 +71,10 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         return isActive;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isApproved;
     }
 }

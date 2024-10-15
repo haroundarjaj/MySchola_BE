@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/api/role")
 public class RoleController {
 
     private final RoleService roleService;
@@ -30,14 +30,14 @@ public class RoleController {
     @GetMapping("/get-by-id/{id}")
     Role getById(@PathVariable long id) { return roleService.getById(id); }
 
-    @GetMapping("get-by-code/{code}")
+    @GetMapping("/get-by-code/{code}")
     Role getByCode(@PathVariable String code) { return roleService.getByCode(code); }
 
     @GetMapping("/all")
     List<Role> getAll() { return roleService.getAll(); }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteAppUserById(@PathVariable int id) {
+    public ResponseEntity<User> delete(@PathVariable int id) {
         roleService.delete(id);
         return ResponseEntity.ok().build();
     }

@@ -66,7 +66,7 @@ public class DataGenerator {
         if(role.isEmpty()){
             Role role2 = new Role();
             role2.setName("User");
-            role2.setCode("US");
+            role2.setCode("USER");
             role2.setDescription("Normal user that has access to the basic options in the app");
             role2.setCreatedBy("System");
             role2.setCreatedAt(timeStamp);

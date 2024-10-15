@@ -51,8 +51,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         );
         var response = new ApiErrorResponse(
                 guid,
-                ExceptionType.INTERNAL_ERROR.getCode(),
-                ExceptionType.INTERNAL_ERROR.getMessage(),
+                exception.getMessage().toLowerCase().replace(" ", "_"),
+                exception.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.name(),
                 request.getRequestURI(),

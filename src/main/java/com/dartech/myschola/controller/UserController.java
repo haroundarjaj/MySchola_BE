@@ -1,6 +1,7 @@
 package com.dartech.myschola.controller;
 
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         return userService.getAll();
     }
 

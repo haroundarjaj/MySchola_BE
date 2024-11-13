@@ -1,6 +1,7 @@
 package com.dartech.myschola.service;
 
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.mapper.UserMapper;
 import com.dartech.myschola.repository.UserRepository;
@@ -116,7 +117,7 @@ class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userService.getAll();
+        List<UserResponseDto> result = userService.getAll();
 
         assertNotNull(result);
         assertEquals(users.size(), result.size());

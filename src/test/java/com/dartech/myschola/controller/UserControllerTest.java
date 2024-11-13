@@ -1,6 +1,7 @@
 package com.dartech.myschola.controller;
 
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.service.UserService;
 import com.dartech.myschola.utils.security.JwtAuthenticationFilter;
@@ -124,7 +125,10 @@ class UserControllerTest {
 
     @Test
     void userController_getAllUsers_returnUsers() throws Exception {
-        List<User> users = List.of(user);
+        UserResponseDto userResponseDto = UserResponseDto.builder()
+                .email(user.getEmail())
+                .build();
+        List<UserResponseDto> users = List.of(userResponseDto);
 
         when(userService.getAll()).thenReturn(users);
 
@@ -135,8 +139,7 @@ class UserControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(users.size()))
-                .andExpect(jsonPath("$.[0].email").value(user.getEmail()))
-                .andExpect(jsonPath("$.[0].password").value(user.getPassword()));
+                .andExpect(jsonPath("$.[0].email").value(user.getEmail()));
     }
 
     @Test

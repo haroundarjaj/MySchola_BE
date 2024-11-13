@@ -2,6 +2,7 @@ package com.dartech.myschola.service;
 
 import com.dartech.myschola.dto.ResetPasswordRequestDto;
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.PasswordResetToken;
 import com.dartech.myschola.entity.User;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     User save(UserDto userDto);
     User update(UserDto userDto);
-    List<User> getAll();
+    List<UserResponseDto> getAll();
     User getById(long id);
     User getByEmail(String email);
     void approveUser(long id);

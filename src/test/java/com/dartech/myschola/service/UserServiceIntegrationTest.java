@@ -1,6 +1,7 @@
 package com.dartech.myschola.service;
 
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.repository.UserRepository;
 import com.dartech.myschola.utils.exception.CustomException;
@@ -98,14 +99,12 @@ public class UserServiceIntegrationTest {
         userService.save(userDto);
         userService.save(userDto2);
 
-        List<User> users = userService.getAll();
+        List<UserResponseDto> users = userService.getAll();
 
         assertNotNull(users);
         assertEquals(2, users.size());
         assertEquals(userDto.getEmail(), users.get(0).getEmail());
-        assertTrue(passwordEncoder.matches(userDto.getPassword(), users.get(0).getPassword()));
         assertEquals(userDto2.getEmail(), users.get(1).getEmail());
-        assertTrue(passwordEncoder.matches(userDto2.getPassword(), users.get(1).getPassword()));
     }
 
     @Test

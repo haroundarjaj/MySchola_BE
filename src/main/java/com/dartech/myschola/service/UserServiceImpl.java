@@ -2,6 +2,7 @@ package com.dartech.myschola.service;
 
 import com.dartech.myschola.dto.ResetPasswordRequestDto;
 import com.dartech.myschola.dto.UserDto;
+import com.dartech.myschola.dto.UserResponseDto;
 import com.dartech.myschola.entity.PasswordResetToken;
 import com.dartech.myschola.entity.User;
 import com.dartech.myschola.mapper.UserMapper;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -106,8 +108,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserResponseDto> getAll() {
+        List<User> users = userRepository.findAllByEmailNot("super@admin.com");
+        List<UserResponseDto> userResponseDtos = users.stream().map(user -> {
+            UserResponseDto userResponseDto = userMapper.entityToResponseDto(user);
+            userResponseDto.setActiveState(user.isActive() ? "active" : "blocked");
+            return userResponseDto;
+        }).toList();
+        return userResponseDtos;
     }
 
     @Override
